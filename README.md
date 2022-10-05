@@ -13,8 +13,7 @@ Schloss Lab Tools for Reproducible Microbiome Research 💩
 [![CRAN
 status](https://www.r-pkg.org/badges/version/schtools)](https://CRAN.R-project.org/package=schtools)
 [![Conda](https://img.shields.io/conda/vn/conda-forge/r-schtools)](https://anaconda.org/conda-forge/r-schtools)
-![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/schtools)
-
+[![DOI](https://zenodo.org/badge/8862218.svg)](https://zenodo.org/badge/latestdoi/8862218)
 <!-- badges: end -->
 
 A collection of useful functions and example code created and used by
@@ -28,6 +27,7 @@ information, documentation, and examples.
 
 You can install the latest release from
 [CRAN](https://cran.r-project.org/package=schtools):
+<img src='https://cranlogs.r-pkg.org/badges/grand-total/schtools' align='right'/>
 
 ``` r
 install.packages("schtools")
@@ -44,6 +44,7 @@ devtools::install_github("SchlossLab/schtools")
 or install from a terminal using
 [conda](https://docs.conda.io/projects/conda/en/latest/index.html) or
 [mamba](https://mamba.readthedocs.io/en/latest/):
+<img src='https://anaconda.org/conda-forge/r-schtools/badges/downloads.svg' align='right'/>
 
 ``` bash
 mamba install -c conda-forge r-schtools
@@ -58,6 +59,9 @@ documentation](http://www.schlosslab.org/schtools/reference/index.html)
 for a comprehensive list of functions.
 
 ## Help & Contributing
+
+If you have questions, create a new post in
+[Discussions](https://github.com/SchlossLab/schtools/discussions).
 
 If you come across a bug, [open an
 issue](https://github.com/SchlossLab/schtools/issues) and include a
@@ -82,22 +86,27 @@ license](https://github.com/SchlossLab/schtools/blob/main/LICENSE.md#creative-co
 
 ## Citation
 
+To cite schtools in publications, use:
+
+> 
+> 
+> <p>
+> 
+> Sovacool K, Lesniak N, Schloss P (2022). <em>schtools: Schloss Lab
+> Tools for Reproducible Microbiome Research</em>.
+> <http://www.schlosslab.org/schtools/>,
+> <https://github.com/SchlossLab/schtools>.
+> 
+> </p>
+
+A BibTeX entry for LaTeX users is:
+
 ``` 
-
-To cite package 'schtools' in publications use:
-
-  Sovacool K, Lesniak N, Schloss P (2022). _schtools: Schloss Lab Tools
-  for Reproducible Microbiome Research_.
-  http://www.schlosslab.org/schtools/,
-  https://github.com/SchlossLab/schtools.
-
-A BibTeX entry for LaTeX users is
-
-  @Manual{,
-    title = {schtools: Schloss Lab Tools for Reproducible Microbiome Research},
-    author = {Kelly Sovacool and Nick Lesniak and Patrick Schloss},
-    year = {2022},
-    note = {http://www.schlosslab.org/schtools/,
+ @Manual{,
+  title = {schtools: Schloss Lab Tools for Reproducible Microbiome Research},
+  author = {Kelly Sovacool and Nick Lesniak and Patrick Schloss},
+  year = {2022},
+  note = {http://www.schlosslab.org/schtools/,
 https://github.com/SchlossLab/schtools},
-  }
+} 
 ```

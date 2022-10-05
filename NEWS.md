@@ -1,14 +1,27 @@
+# schtools 0.3.0
+
+- New function `log_snakemake()` redirects all output to a rule-specific log
+  file when called by a Snakemake rule (#35, @kelly-sovacool).
+- New function `pool_taxon_counts()` pools OTU counts at a particular taxonomic 
+  level (e.g. genus, phylum, etc.) to enable comparing analyses at different 
+  taxonomic resolutions, as seen in <https://doi.org/10.1128/mbio.03161-21> 
+  (#37, @kelly-sovacool).
+- New function `calc_relabun()` calculates OTU relative abundances (#38, @kelly-sovacool).
+- New custom themes for ggplot2:
+    - `theme_sovacool()` (#39, @kelly-sovacool)
+    - `theme_lucas()` (#40, @sklucas)
+
 # schtools 0.2.1
 
-- Improvements to `parse_tax()` (#32, @kelly-sovacool)
+- Improvements to `parse_tax()` (#32, @kelly-sovacool).
     - New column `label_html` provides HTML to correctly italicize genus names but not OTU labels.
     - Added an example to the intro vignette to demonstrate using this feature with `ggtext`.
     - Changed taxonomy data frame column names to lowercase and reordered them.
-- Minor documentation improvements (#33, @kelly-sovacool)
+- Minor documentation improvements (#33, @kelly-sovacool).
 
 # schtools 0.1.1
 
-- Refactored `read_tax()` (#30, @kelly-sovacool)
+- Refactored `read_tax()` (#30, @kelly-sovacool).
     - New function `parse_tax()` to separate the logic of reading and parsing taxonomy files.
     - `read_tax()` now accepts a `sep` parameter to handle different delim file types (e.g. csv or tsv).
 - schtools now has a logo! (#31, @kelly-sovacool)

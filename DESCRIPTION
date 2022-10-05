@@ -1,7 +1,7 @@
 Package: schtools
 Title: Schloss Lab Tools for Reproducible Microbiome Research
-Version: 0.2.1
-Date: 2022-05-11
+Version: 0.3.0
+Date: 2022-10-05
 Authors@R: 
     c(person(given = "Kelly",
              family = "Sovacool",
@@ -52,13 +52,13 @@ URL: http://www.schlosslab.org/schtools/,
         https://github.com/SchlossLab/schtools
 BugReports: https://github.com/SchlossLab/schtools/issues
 Imports: dplyr, formatR, glue, rlang, stringr, tidyr
-Suggests: covr, cowplot, ggplot2, ggtext, here, hexSticker, knitr,
-        purrr, rmarkdown, showtext, testthat
+Suggests: covr, cowplot, ggplot2, ggtext, here, hexSticker, hrbrthemes,
+        knitr, purrr, readr, rmarkdown, showtext, testthat
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
 NeedsCompilation: no
-Packaged: 2022-05-11 22:37:37 UTC; kelly
+Packaged: 2022-10-05 20:53:15 UTC; sovacool
 Author: Kelly Sovacool [aut, cre] (<https://orcid.org/0000-0003-3283-829X>),
   Nick Lesniak [aut] (<https://orcid.org/0000-0001-9359-5194>),
   Patrick Schloss [aut],
@@ -71,4 +71,4 @@ Author: Kelly Sovacool [aut, cre] (<https://orcid.org/0000-0003-3283-829X>),
   Kathryn Iverson [ctb]
 Maintainer: Kelly Sovacool <sovacool@umich.edu>
 Repository: CRAN
-Date/Publication: 2022-05-11 23:20:02 UTC
+Date/Publication: 2022-10-05 21:50:02 UTC

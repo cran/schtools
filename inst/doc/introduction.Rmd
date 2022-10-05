@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 schtools::set_knitr_opts()
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -16,54 +16,110 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r deps}
 library(schtools)
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(tidyr)
 ```
 
-## Parsing mothur output files
+## Handling mothur data
+
+### Calculate relative abundances
+
+You can read a shared file and calculate relative abundances with `calc_relabun()`:
+
+```{r calc_relabun}
+shared_dat <- read_tsv(system.file("extdata", "test.shared", 
+                                   package = "schtools"))
+relabun_dat <- shared_dat %>% calc_relabun()
+head(relabun_dat)
+```
+
+`calc_relabun()` returns the data frame in long format. 
+You can use `tidyr::pivot_wider()` to convert it to wide format:
+
+```{r pivot_wider}
+wide_dat <- relabun_dat %>% 
+    pivot_wider(names_from = "otu", values_from = "rel_abun")
+head(wide_dat)
+```
+
+You can see that the relative abundances for each sample sum to 1:
+
+```{r sum1}
+wide_dat %>% 
+    select(starts_with('Otu')) %>% 
+    rowSums()
+```
+
 
 ### Taxonomy files
 
+mothur formats taxonomy files as tab-separated values (tsv). 
+You can use `read_tax()` to parse the taxonomy data and create separate columns
+for each taxonomic level.
+
 ```{r read_tax}
-tax_filepath <- system.file("extdata", "test.taxonomy", package = "schtools")
-tax_dat <- read_tax(tax_filepath)
+tax_dat <- read_tax(system.file("extdata", "test.taxonomy", 
+                                package = "schtools"))
 head(tax_dat)
 ```
 
 The column `label_html` provides html that correctly italicizes the genus name
-but not the OTU label, which can be used with `ggtext::element_markdown()`
-to make nice plots:
+without italicizing the OTU label. This can be used with
+`ggtext::element_markdown()` to make nice plots:
 
-```{r}
-library(dplyr)
-library(ggplot2)
+```{r italic-genus}
 library(ggtext)
-library(tidyr)
 set.seed(20220427)
-pick_random_bool <- function(n = nrow(tax_dat)) {
-        sample(c(TRUE, FALSE), n, replace = TRUE)
-    }
-tax_dat %>% 
-    select(label_html) %>% 
-    mutate(sample1 = pick_random_bool(),
-           sample2 = pick_random_bool(),
-           sample3 = pick_random_bool() 
+
+relabun_dat %>%
+    mutate(sample_num = stringr::str_remove(sample, 'p') %>% as.integer(),
+           treatment = case_when(sample_num %% 2 == 1 ~ 'A', 
+                                                 TRUE ~ 'B')
            ) %>% 
-    pivot_longer(starts_with('sample'), 
-                 names_to = 'sample', values_to = 'presence') %>% 
-    ggplot(aes(x = sample, y = label_html, fill = presence)) +
-    geom_tile() +
-    scale_fill_manual(values = c(`TRUE` = "#08519C", `FALSE` = "#F0F0F0")) +
-    scale_x_discrete(position = "top") +
-    theme_classic() +
-    theme(axis.text.y = element_markdown(),
-          axis.title.y = element_blank(),
-          axis.title.x = element_blank())
+    inner_join(tax_dat, by = "otu") %>%
+    ggplot(aes(x = rel_abun, y = label_html, color = treatment)) +
+    geom_jitter(alpha = 0.7, height = 0.2) +
+    labs(x = 'Relative abundance', y = '') +
+    theme_minimal() +
+    theme(axis.text.y = element_markdown())
+```
+
+#### Pooling OTU counts at different taxonomic levels
+
+A common task is to repeat OTU-level analyses at different taxonomic levels to
+determine [which resolution is optimal for answering your questions](https://doi.org/10.1128/mbio.03161-21). 
+You'll need a shared file, generated from clustering sequences into OTUs with
+mothur, and a corresponding taxonomy file.
+Take a look at the [mothur documentation](https://mothur.org/wiki/) for info on
+generating these files and performing microbiome analyses.
+
+In this example, `pool_taxon_counts()` pools the OTU counts in the shared file 
+at the genus level and returns new shared and taxonomy data frames.
+
+```{r pool_genus}
+tax_dat <- read_tax(system.file("extdata", "test.taxonomy",
+                                package = "schtools"))
+shared_dat <- readr::read_tsv(system.file("extdata", "test.shared",
+                                          package = "schtools"))
+pool_taxon_counts(shared_dat, tax_dat, genus)
+```
+
+You can do this for any taxonomic level in your taxonomy data frame.
+
+```{r pool_phylum}
+pool_taxon_counts(shared_dat, tax_dat, phylum)
 ```
 
 
+### Distance files
 
-### Phylip-formatted distance file as a tibble
+If you have a distance file saved as a phylip-formatted lower triangle matrix
+from mothur's [`dist.seqs`](https://mothur.org/wiki/dist.seqs/) command, 
+you can read it into R with `read_dist()`:
  
 ```{r read_dist}
 dist_filepath <- system.file("extdata",
@@ -74,7 +130,7 @@ head(dist_tbl)
 ```
 
 
-## Miscellaneous helpers
+## R Markdown helpers for scientific writing
 
 When writing scientific papers with R Markdown, we often find ourselves 
 using the same knitr chunk options and miscellaneous helper functions.
