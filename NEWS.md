@@ -1,3 +1,8 @@
+# schtools 0.4.0
+
+- `set_knitr_opts()` now sets message to `FALSE` (#45, @kelly-sovacool).
+- New function `get_wildcards_tbl()` returns the Snakemake wildcards list as a tibble (#46, @kelly-sovacool).
+
 # schtools 0.3.1
 
 - Fixes for API changes in ggplot2 v3.4.0 and tidyselect v1.2.0 (#42, #44, @kelly-sovacool).
